@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Orography Factor</title>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+
+<body>
+    <div class="main">
+        <div class="box">
+            <h1>Orography Factor Calculator</h1>
+            <div class="content">
+                <div class="input">
+                    <label for="address">Address:</label>
+                    <input type="text" class="text-input" id="address" autocomplete="off" required
+                        value="Pl. de l'Atomium 1, 1020 Bruxelles" />
+                </div>
+                <div>
+                    <button class="calculate" id="submit" onclick="calculate();">Calculate</button>
+                </div>
+                <div class="result" id="result">
+                    <div>Latitude: <span id="latitude"></span></div>
+                    <div>Longitude: <span id="longitude"></span></div>
+                    <div>Elevation: <span id="elevation"></span></div>
+                </div>
+                <div class="input">
+                    <label for="height">Height [m]:</label>
+                    <input type="text" class="text-input" id="height" autocomplete="off" required />
+                </div>
+            </div>
+        </div>
+        <div id="map"></div>
+    </div>
+
+</body>
+
+</html>
