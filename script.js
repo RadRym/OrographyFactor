@@ -29,8 +29,11 @@ function calculate()
                 // Update map view to new coordinates
                 map.setView([latitude, longitude]);
 
+
                 // Update elevation
                 calculateElevation(latitude, longitude)
+                calculateAllDirectons(latitude, longitude)
+
             } else
             {
                 alert('Nie można znaleźć współrzędnych dla podanego adresu.');
@@ -152,7 +155,6 @@ function initializeMap()
         verticalLine.setLatLngs(newVerticalLineCoords);
         horizontalLine.setLatLngs(newHorizontalLineCoords);
 
-        calculateAllDirectons()
     });
 
     // Add event listener for marker dragend event
@@ -170,10 +172,11 @@ function initializeMap()
         latitudeElement.textContent = latitude;
         longitudeElement.textContent = longitude;
 
+        calculateAllDirectons(latitude, longitude)
     });
 }
 
-function calculateAllDirectons()
+function calculateAllDirectons(latitude, longitude)
 {
     // Calculate elevation for directions
     calculateElevationForDirection(latitude, longitude, 'north_05km', latitude + (0.5 / 111)); // 0.5 km north
@@ -228,3 +231,4 @@ function calculateElevation(latitude, longitude)
         })
         .catch(error => console.error('Error:', error));
 }
+

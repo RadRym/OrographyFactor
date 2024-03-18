@@ -14,8 +14,7 @@ body {
 }
 
 .main {
-    width: 100%;
-    max-width: 1200px;
+    width: 90%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,7 +22,6 @@ body {
 
 .box {
     width: 50%;
-    max-width: 500px;
     background-color: #fff;
     border-radius: 10px;
     padding: 20px;
@@ -81,7 +79,6 @@ h1 {
 
 #map {
     width: 100%;
-    max-width: 750px;
     height: 90vh;
     border-radius: 10px;
     margin-left: 20px;
