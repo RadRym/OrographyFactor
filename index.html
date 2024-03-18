@@ -24,6 +24,10 @@
                     <input type="text" class="text-input" id="address" autocomplete="off" required
                         value="Pl. de l'Atomium 1, 1020 Bruxelles" />
                 </div>
+                <div class="input">
+                    <label for="height">Height of tower [m]:</label>
+                    <input type="text" class="text-input" id="height" autocomplete="off" required />
+                </div>
                 <div>
                     <button class="calculate" id="submit" onclick="calculate();">Calculate</button>
                 </div>
@@ -31,10 +35,33 @@
                     <div>Latitude: <span id="latitude"></span></div>
                     <div>Longitude: <span id="longitude"></span></div>
                     <div>Elevation: <span id="elevation"></span></div>
-                </div>
-                <div class="input">
-                    <label for="height">Height [m]:</label>
-                    <input type="text" class="text-input" id="height" autocomplete="off" required />
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th>0.5km</th>
+                            <th>1km</th>
+                        </tr>
+                        <tr>
+                            <td>North</td>
+                            <td><span id="elevation_north_05km"></span></td>
+                            <td><span id="elevation_north_1km"></span></td>
+                        </tr>
+                        <tr>
+                            <td>South</td>
+                            <td><span id="elevation_south_05km"></span></td>
+                            <td><span id="elevation_south_1km"></span></td>
+                        </tr>
+                        <tr>
+                            <td>East</td>
+                            <td><span id="elevation_east_05km"></span></td>
+                            <td><span id="elevation_east_1km"></span></td>
+                        </tr>
+                        <tr>
+                            <td>West</td>
+                            <td><span id="elevation_west_05km"></span></td>
+                            <td><span id="elevation_west_1km"></span></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
