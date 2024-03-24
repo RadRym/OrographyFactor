@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function ()
 {
+    initializeMap();
     calculate();
 });
 
@@ -20,17 +21,13 @@ function calculate()
                 var latitudeElement = document.getElementById('latitude');
                 var longitudeElement = document.getElementById('longitude');
 
-                latitudeElement.textContent = 'Latitude: ' + latitude;
-                longitudeElement.textContent = 'Longitude: ' + longitude;
+                latitudeElement.textContent = latitude;
+                longitudeElement.textContent = longitude;
 
-                // Update marker position
                 marker.setLatLng([latitude, longitude]);
 
-                // Update map view to new coordinates
                 map.setView([latitude, longitude]);
 
-
-                // Update elevation
                 calculateElevation(latitude, longitude)
                 calculateAllDirectons(latitude, longitude)
 
@@ -42,21 +39,14 @@ function calculate()
         .catch(error => console.error('Error:', error));
 }
 
-document.addEventListener('DOMContentLoaded', function ()
-{
-    initializeMap();
-});
-
 function initializeMap()
 {
-    // Initial coordinates for Brussels
+
     var initialLatitude = 50.8503;
     var initialLongitude = 4.3517;
 
-    // Initialize Leaflet map
     map = L.map('map').setView([initialLatitude, initialLongitude], 13);
 
-    // Definiuj warstwy map
     var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
         maxZoom: 20,
         subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
@@ -77,7 +67,6 @@ function initializeMap()
         subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
     });
 
-    // Dodaj warstwy map do kontrolera warstw
     var baseMaps = {
         "Google Streets": googleStreets,
         "Google Hybrid": googleHybrid,
@@ -85,13 +74,10 @@ function initializeMap()
         "Google Terrain": googleTerrain
     };
 
-    // Domyślna warstwa mapy
     googleTerrain.addTo(map);
 
-    // Dodaj kontroler warstw do mapy
     L.control.layers(baseMaps).addTo(map);
 
-    // Add marker to the map
     marker = L.marker([initialLatitude, initialLongitude], { draggable: true }).addTo(map);
 
     var circle05km = L.circle([initialLatitude, initialLongitude], {
@@ -99,7 +85,7 @@ function initializeMap()
         fillColor: '#f03',
         fillOpacity: 0.05,
         weight: 1,
-        radius: 500 // promień w metrach (0.5 km = 500 m)
+        radius: 500
     }).addTo(map);
 
     var circle1km = L.circle([initialLatitude, initialLongitude], {
@@ -107,40 +93,36 @@ function initializeMap()
         fillColor: '#f03',
         fillOpacity: 0.05,
         weight: 1,
-        radius: 1000 // promień w metrach (1 km = 1000 m)
+        radius: 1000
     }).addTo(map);
 
-    var crossSize = 1100; // Wielkość krzyżyka w metrach (2 km = 2000 m)
+    var crossSize = 1100;
 
-    // Linia pionowa
     var verticalLine = L.polyline([
-        [initialLatitude - crossSize / 111000, initialLongitude], // Współrzędne punktu startowego
-        [initialLatitude + crossSize / 111000, initialLongitude]  // Współrzędne punktu końcowego
+        [initialLatitude - crossSize / 111000, initialLongitude],
+        [initialLatitude + crossSize / 111000, initialLongitude]
     ], {
-        color: 'red',  // Kolor linii
-        weight: 1,      // Grubość linii w pikselach
+        color: 'red',
+        weight: 1,
     }).addTo(map);
 
-    // Linia pozioma
     var horizontalLine = L.polyline([
-        [initialLatitude, initialLongitude - crossSize / (111000 * Math.cos(initialLatitude * Math.PI / 180))], // Współrzędne punktu startowego
-        [initialLatitude, initialLongitude + crossSize / (111000 * Math.cos(initialLatitude * Math.PI / 180))]  // Współrzędne punktu końcowego
+        [initialLatitude, initialLongitude - crossSize / (111000 * Math.cos(initialLatitude * Math.PI / 180))],
+        [initialLatitude, initialLongitude + crossSize / (111000 * Math.cos(initialLatitude * Math.PI / 180))]
     ], {
-        color: 'red',  // Kolor linii
-        weight: 1,      // Grubość linii w pikselach
+        color: 'red',
+        weight: 1,
     }).addTo(map);
 
     marker.on('move', function (event)
     {
         var markerPosition = event.latlng;
 
-        // Update circles position
         circle05km.setLatLng(markerPosition);
         circle1km.setLatLng(markerPosition);
 
         var markerPosition = event.latlng;
 
-        // Oblicz nowe współrzędne linii
         var newVerticalLineCoords = [
             [markerPosition.lat - crossSize / 111000, markerPosition.lng],
             [markerPosition.lat + crossSize / 111000, markerPosition.lng]
@@ -151,13 +133,11 @@ function initializeMap()
             [markerPosition.lat, markerPosition.lng + crossSize / (111000 * Math.cos(markerPosition.lat * Math.PI / 180))]
         ];
 
-        // Ustaw nowe współrzędne dla linii
         verticalLine.setLatLngs(newVerticalLineCoords);
         horizontalLine.setLatLngs(newHorizontalLineCoords);
 
     });
 
-    // Add event listener for marker dragend event
     marker.on('dragend', function (event)
     {
         var markerPosition = event.target.getLatLng();
@@ -165,7 +145,6 @@ function initializeMap()
         var longitude = markerPosition.lng;
         calculateElevation(latitude, longitude)
 
-        // Update latitude and longitude elements
         var latitudeElement = document.getElementById('latitude');
         var longitudeElement = document.getElementById('longitude');
 
@@ -178,7 +157,6 @@ function initializeMap()
 
 function calculateAllDirectons(latitude, longitude)
 {
-    // Calculate elevation for directions
     calculateElevationForDirection(latitude, longitude, 'north_05km', latitude + (0.5 / 111)); // 0.5 km north
     calculateElevationForDirection(latitude, longitude, 'south_05km', latitude - (0.5 / 111)); // 0.5 km south
     calculateElevationForDirection(latitude, longitude, 'east_05km', latitude, longitude + (0.5 / (111 * Math.cos(latitude * Math.PI / 180)))); // 0.5 km east
@@ -188,9 +166,12 @@ function calculateAllDirectons(latitude, longitude)
     calculateElevationForDirection(latitude, longitude, 'south_1km', latitude - (1 / 111)); // 1 km south
     calculateElevationForDirection(latitude, longitude, 'east_1km', latitude, longitude + (1 / (111 * Math.cos(latitude * Math.PI / 180)))); // 1 km east
     calculateElevationForDirection(latitude, longitude, 'west_1km', latitude, longitude - (1 / (111 * Math.cos(latitude * Math.PI / 180)))); // 1 km west
+
+    var heightInput = parseFloat(document.getElementById("height").value);
+    heightInput = parseFloat(a);
+    document.getElementById("total_elevation").textContent = `${heightInput} meters`;
 }
 
-// Funkcja do obliczania wysokości nad poziomem morza dla określonego kierunku z wykorzystaniem API Open-Meteo
 function calculateElevationForDirection(latitude, longitude, direction, newLatitude = latitude, newLongitude = longitude)
 {
     const apiUrl = `https://api.open-meteo.com/v1/elevation?latitude=${newLatitude}&longitude=${newLongitude}`;
@@ -203,6 +184,7 @@ function calculateElevationForDirection(latitude, longitude, direction, newLatit
             {
                 const elevation = data.elevation[0];
                 document.getElementById(`elevation_${direction}`).textContent = `${elevation} meters`;
+                calculateTotalElevation();
             } else
             {
                 document.getElementById(`elevation_${direction}`).textContent = 'Data not available';
@@ -211,7 +193,6 @@ function calculateElevationForDirection(latitude, longitude, direction, newLatit
         .catch(error => console.error('Error:', error));
 }
 
-// Funkcja do obliczania wysokości nad poziomem morza na podstawie współrzędnych geograficznych z wykorzystaniem API Open-Meteo
 function calculateElevation(latitude, longitude)
 {
     const apiUrl = `https://api.open-meteo.com/v1/elevation?latitude=${latitude}&longitude=${longitude}`;
@@ -232,3 +213,60 @@ function calculateElevation(latitude, longitude)
         .catch(error => console.error('Error:', error));
 }
 
+function calculateTotalElevation()
+{
+
+    var elevationNorth05kmText = document.getElementById("elevation_north_05km").textContent;
+    var elevationNorth1kmText = document.getElementById("elevation_north_1km").textContent;
+    var elevationSouth05kmText = document.getElementById("elevation_south_05km").textContent;
+    var elevationSouth1kmText = document.getElementById("elevation_south_1km").textContent;
+    var elevationEast05kmText = document.getElementById("elevation_east_05km").textContent;
+    var elevationEast1kmText = document.getElementById("elevation_east_1km").textContent;
+    var elevationWest05kmText = document.getElementById("elevation_west_05km").textContent;
+    var elevationWest1kmText = document.getElementById("elevation_west_1km").textContent;
+    var elevationText = document.getElementById("elevation").textContent;
+
+    var elevationNorth05km = parseFloat(elevationNorth05kmText.split(" ")[0]);
+    var elevationNorth1km = parseFloat(elevationNorth1kmText.split(" ")[0]);
+    var elevationSouth05km = parseFloat(elevationSouth05kmText.split(" ")[0]);
+    var elevationSouth1km = parseFloat(elevationSouth1kmText.split(" ")[0]);
+    var elevationEast05km = parseFloat(elevationEast05kmText.split(" ")[0]);
+    var elevationEast1km = parseFloat(elevationEast1kmText.split(" ")[0]);
+    var elevationWest05km = parseFloat(elevationWest05kmText.split(" ")[0]);
+    var elevationWest1km = parseFloat(elevationWest1kmText.split(" ")[0]);
+    var elevation = parseFloat(elevationText.split(" ")[0]);
+
+    var sum1km = elevationNorth1km + elevationSouth1km + elevationEast1km + elevationWest1km;
+    var sum05km = elevationNorth05km + elevationSouth05km + elevationEast05km + elevationWest05km;
+
+    var towerHeight = parseFloat(document.getElementById("height").value);
+
+    var Am = 1 / 10 * (2 * elevation + sum1km + sum05km);
+    var DeltaAc = elevation - Am;
+
+    var OrographyFactor;
+    if (towerHeight > 10)
+    {
+        OrographyFactor = 1 + 0.004 * DeltaAc * Math.exp(-0.014 * (towerHeight - 10));
+    } else
+    {
+        OrographyFactor = 1 + 0.004 * DeltaAc * Math.exp(-0.014 * (10 - 10));
+    }
+
+    OrographyFactor = Math.ceil(OrographyFactor * 100) / 100;
+
+    document.getElementById("orography_factor").textContent = OrographyFactor;
+
+    if (OrographyFactor < 1.0)
+    {
+        document.getElementById("orography_factor_comment").textContent = "c0(z) <1.0";
+    } else if (OrographyFactor > 1.15)
+    {
+        document.getElementById("orography_factor_comment").textContent = "Wymagana szczegółowa analiza";
+    } else
+    {
+        document.getElementById("orography_factor_comment").textContent = ""; // Wyczyść komentarz, jeśli nie spełniono żadnego warunku
+    }
+    var OrographyFactorFormatted = OrographyFactor.toFixed(2);
+    document.getElementById("orography_factor").textContent = OrographyFactorFormatted;
+}

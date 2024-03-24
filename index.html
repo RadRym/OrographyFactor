@@ -17,20 +17,23 @@
 <body>
     <div class="main">
         <div class="box">
-            <h1>Orography Factor Calculator</h1>
+            <h1>Orography Factor</h1>
             <div class="content">
                 <div class="input">
                     <label for="address">Address:</label>
                     <input type="text" class="text-input" id="address" autocomplete="off" required
                         value="Pl. de l'Atomium 1, 1020 Bruxelles" />
                 </div>
+                <div>
+                    <button class="calculate" id="submit" onclick="calculate();">Search</button>
+                </div>
+
                 <div class="input">
                     <label for="height">Height of tower [m]:</label>
-                    <input type="text" class="text-input" id="height" autocomplete="off" required />
+                    <input type="text" class="text-input" id="height" autocomplete="off" required value="30"
+                        oninput="calculateTotalElevation()" />
                 </div>
-                <div>
-                    <button class="calculate" id="submit" onclick="calculate();">Calculate</button>
-                </div>
+
                 <div class="result" id="result">
                     <div>Latitude: <span id="latitude"></span></div>
                     <div>Longitude: <span id="longitude"></span></div>
@@ -62,11 +65,23 @@
                             <td><span id="elevation_west_1km"></span></td>
                         </tr>
                     </table>
+                    <div></div>
+                    <h1>Orography Factor: <span id="orography_factor"></span></h1>
+                    <div><span id="orography_factor_comment"></span></div>
                 </div>
             </div>
         </div>
         <div id="map"></div>
+
     </div>
+
+    <div class="disclaimer">
+        <p><em>Disclaimer: The results are provided for informational purposes only. I do not assume any
+                responsibility for the accuracy of the results. Special thanks to the following API providers:</em></p>
+        <div class="api-link"><a href="https://nominatim.org/" target="_blank">Nominatim API</a></div>
+        <div class="api-link"><a href="https://open-meteo.com/" target="_blank">Open-Meteo API</a></div>
+    </div>
+
 
 </body>
 

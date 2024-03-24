@@ -10,11 +10,12 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(to right, #9c27b9, #8ecdff);
+    flex-direction: column;
+    background: linear-gradient(to right, #161516, #031c30);
 }
 
 .main {
-    width: 90%;
+    width: 80%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -39,9 +40,6 @@ h1 {
     flex-direction: column;
 }
 
-.input {
-    margin-bottom: 20px;
-}
 
 .input label {
     font-weight: bold;
@@ -58,10 +56,12 @@ h1 {
 
 .calculate {
     width: 100%;
-    padding: 10px;
+    padding: 7px;
     border: none;
     background-color: #4caf50;
     color: #fff;
+    margin-top: 10px;
+    margin-bottom: 10px;
     font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
@@ -87,14 +87,14 @@ h1 {
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin-top: 8px;
 }
 
 th,
 td {
     border: 1px solid #dddddd;
     text-align: center;
-    padding: 8px;
+    padding: 4px;
 }
 
 th {
@@ -107,4 +107,31 @@ tr:nth-child(even) {
 
 tr:hover {
     background-color: #ddd;
+}
+
+.column {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.column:last-child {
+    margin-right: 0;
+}
+
+#orography_factor {
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+}
+
+#orography_factor_comment {
+    color: red;
+    text-align: center;
+    font-weight: bold;
+}
+
+.disclaimer {
+    margin-top: 5px;
+    text-align: center;
+    font-size: 10px;
 }
