@@ -183,7 +183,7 @@ function calculateElevationForDirection(latitude, longitude, direction, newLatit
             if (data.elevation && data.elevation.length > 0)
             {
                 const elevation = data.elevation[0];
-                document.getElementById(`elevation_${direction}`).textContent = `${elevation} meters`;
+                document.getElementById(`elevation_${direction}`).textContent = `${elevation}`;
                 calculateTotalElevation();
             } else
             {
@@ -204,7 +204,7 @@ function calculateElevation(latitude, longitude)
             if (data.elevation && data.elevation.length > 0)
             {
                 const elevation = data.elevation[0];
-                document.getElementById('elevation').textContent = `${elevation} meters`;
+                document.getElementById('elevation').textContent = `${elevation}`;
             } else
             {
                 document.getElementById('elevation').textContent = 'Data not available';
